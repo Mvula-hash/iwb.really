@@ -1,0 +1,269 @@
+<html>
+    <head><title>New Tools</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.products {
+    width: 60%;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-item {
+    background: white;
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+.product-item img {
+    width: 100%;
+    height: auto;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.cart {
+    width: 30%;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.cart ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+    </style>
+</head>
+    <body>
+        <header>
+        <h1>IWB - Software Tools</h1>
+    </header>
+      </div>
+            <h2>🔔 Notifications Center</h2>
+<div id="notifications">
+  <p>No notifications yet.</p>
+</div>
+
+<h2>♻️ Recommended Recycled Parts</h2>
+<div id="recommendations">
+  <p>No recommendations yet.</p>
+</div>
+    <main>
+        <section class="products">
+            <h2>Our Software Tools</h2>
+            <div class="product-list">
+                <!-- Product 1 -->
+                <div class="product-item">
+                    <img src="datar.jpg" alt="Tool 1">
+                    <h3>DataRevive</h3>
+                    <p>A powerful software tool for productivity.</p>
+                    <p><strong>Monthly: $10</strong> | <strong>Annual: $180</strong></p>
+                    <button onclick="addToCart('Tool 1', 10)">Add to Cart</button>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-item">
+                    <img src="sec.jpg" alt="Tool 2">
+                    <h3>SecureWipe</h3>
+                    <p>A high-performance tool for web development.</p>
+                    <p><strong>Monthly: $20</strong> | <strong>Annual: $200</strong></p>
+                    <button onclick="addToCart('Tool 2', 20)">Add to Cart</button>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-item">
+                    <img src="eco.jpg" alt="Tool 3">
+                    <h3>EcoRecover</h3>
+                    <p>A design tool for professionals.</p>
+                    <p><strong>Monthly: $15</strong> | <strong>Annual: $150</strong></p>
+                    <button onclick="addToCart('Tool 3', 15)">Add to Cart</button>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-item">
+                    <img src="last.jpg" alt="Tool 4">
+                    <h3>SafeSuite</h3>
+                    <p>Analytics software for businesses.</p>
+                    <p><strong>Monthly: $30</strong> | <strong>Annual: $300</strong></p>
+                    <button onclick="addToCart('Tool 4', 30)">Add to Cart</button>
+                </div>
+        </section>
+
+        <section class="cart">
+            <h2>Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <p>Total: $<span id="cart-total">0</span></p>
+            <button onclick="processPayment()">Proceed to Payment</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IWB Software Tools</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+function addToCart(product, price) {
+    const existingProduct = cart.find(item => item.product === product);
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+        existingProduct.totalPrice = existingProduct.quantity * existingProduct.price;
+    } else {
+        cart.push({
+            product: product,
+            price: price,
+            quantity: 1,
+            totalPrice: price
+        });
+    }
+    updateCart();
+}
+
+function removeFromCart(product) {
+    const productIndex = cart.findIndex(item => item.product === product);
+    if (productIndex !== -1) {
+        cart.splice(productIndex, 1);
+        updateCart();
+    }
+}
+
+function updateCart() {
+    const cartItems = document.getElementById("cart-items");
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        total += item.totalPrice;
+        cartItems.innerHTML += `
+            <li>
+                ${item.product} - $${item.totalPrice} 
+                <button onclick="removeFromCart('${item.product}')">Remove</button>
+            </li>
+        `;
+    });
+    document.getElementById("cart-total").textContent = total;
+}
+
+function processPayment() {
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    alert("Processing payment...");
+    // Here you could implement payment integration like PayPal/Stripe for real payments
+    // For now, we just reduce stock and simulate success.
+    
+    // Simulate successful payment and reduce stock
+    cart.forEach(item => {
+        // Reduce the stock of the product (mocked)
+        console.log(`${item.product} stock reduced by ${item.quantity}`);
+    });
+
+    // Clear cart and update UI
+    cart = [];
+    updateCart();
+
+    // Send notifications to the user (mocked)
+    alert("Payment successful! Notifications sent for similar products.");
+}
+  // Customer has previously recycled or bought these
+  const customerHistory = ["hard drive", "laptop", "RAM"];
+
+  // New recycled parts added to system
+  const newInventory = [
+    { name: "Refurbished SSD (256GB)", tags: ["ssd", "hard drive"] },
+    { name: "Recycled 8GB DDR4 RAM", tags: ["ram", "memory"] },
+    { name: "Repaired Laptop Battery", tags: ["laptop", "battery"] },
+    { name: "Old Printer", tags: ["printer"] }
+  ];
+
+  function triggerNotification() {
+    const matches = newInventory.filter(part =>
+      part.tags.some(tag => customerHistory.includes(tag))
+    );
+
+    if (matches.length > 0) {
+      // Simulated email push (use alert)
+      alert("📧 New recycled parts available matching your previous recycling history!");
+
+      // Dashboard alerts
+      document.getElementById("notifications").innerHTML = matches.map(part =>
+        `<div class="notification">🔔 New Arrival: <strong>${part.name}</strong> matches your interests.</div>`
+      ).join("");
+
+      // Recommendations
+      document.getElementById("recommendations").innerHTML = matches.map(part =>
+        `🧠 You may want to check: <strong>${part.name}</strong>`
+      ).join("<br>");
+    }
+  }
+
+  // Run this on load or when new stock is added
+  triggerNotification();
+
+    </script>
+    </body>
+    </html>
